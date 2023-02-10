@@ -10,12 +10,13 @@
 </head>
 
 <body>
-    <?php foreach($posts as $post): ?>
+    @foreach ($posts as $post)
+        {{-- @dd($loop) --}}
         <article>
             <h1><a href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h1>
             <p>{{ $post->excerpt }}</p>
         </article>
-    <?php endforeach?>
+    @endforeach
 </body>
 
 </html>
