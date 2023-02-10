@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -16,10 +17,19 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 */
 
 Route::get('/', function () {
+    \Illuminate\Support\Facades\DB::listen(
+        function ($query) {
+            logger($query->sql, $query->bindings);
+        }
+    );
     return view('posts', ['posts' => Post::all()]);
 });
 
 Route::get('/posts/{post:slug}', function (Post $post) {
     return view('post', ['post' => $post]);
+});
+
+Route::get('/category/{category:slug}', function (Category $category) {
+    return view('posts', ['posts' => $category->posts]);
 });
 // })->where('post', '[A-z_\-]+');
