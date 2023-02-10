@@ -11,6 +11,7 @@ class Post extends Model
     // protected $guarded = ['id'];
     // protected $fillable = ['title','slug', 'body', 'excerpt'];
 
+    // define the default key for route model binding otherwise use {post:slug}
     // public function getRouteKeyName()
     // {
     //     return 'slug';
