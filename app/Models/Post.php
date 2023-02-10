@@ -33,14 +33,18 @@ class Post
         // });
         // return cache()->remember("post.{$slug}", 1200, fn () => file_get_contents($path));
 
-        $posts = static::all();
-        $post = $posts->firstWhere('slug', $slug);
+        $post = static::all()->firstWhere('slug', $slug);
+        return $post;
+    }
+
+    public static function findOrFail($slug)
+    {
+        $post = static::find($slug);
         if (!$post) {
             throw new ModelNotFoundException;
         }
-        return $posts->firstWhere('slug', $slug);
+        return $post;
     }
-
     public static function all()
     {
         return cache()->rememberForever(
