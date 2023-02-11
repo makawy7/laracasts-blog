@@ -48,6 +48,6 @@ Route::get('/category/{category:slug}', function (Category $category) {
 })->name('category');
 Route::get('/author/{user:username}', function (User $user) {
     // $user = $user->load('posts', 'posts.category', 'posts.author');
-    return view('posts', ['posts' => $user->posts->load('category', 'author')]);
+    return view('posts', ['posts' => $user->posts->load('category', 'author'), 'categories' => Category::all()]);
 });
 // })->where('post', '[A-z_\-]+');
