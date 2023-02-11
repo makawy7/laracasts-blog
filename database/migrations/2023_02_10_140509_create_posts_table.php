@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('excerpt');
             $table->longText('body');
             $table->foreignId('category_id');
+            $table->foreignId('user_id');
             $table->timestamps();
             $table->timestamp('published_at')->nullable();
         });

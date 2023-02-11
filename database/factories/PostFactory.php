@@ -17,6 +17,7 @@ class PostFactory extends Factory
             'title' => $this->faker->sentence,
             'slug' => $this->faker->slug,
             'category_id' => $this->faker->randomElement([1, 2, 3]),
+            'user_id' => $this->faker->randomElement([1, 2, 3]),
             'excerpt' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
         ];

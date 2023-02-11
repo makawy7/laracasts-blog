@@ -9,10 +9,10 @@ use Illuminate\Support\Str;
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class CategoryFactory extends Factory
-{   
+{
 
     public function definition()
-    {   
+    {
         return [
             'name' => $this->faker->word,
             'slug' => $this->faker->slug,

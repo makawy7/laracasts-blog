@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -23,7 +24,7 @@ Route::get('/', function () {
     //     }
     // );
     // resolving the lazy loading and fetch category with posts
-    return view('posts', ['posts' => Post::with('category')->get()]);
+    return view('posts', ['posts' => Post::latest()->with('category', 'author')->get()]);
 });
 
 Route::get('/posts/{post:slug}', function (Post $post) {
@@ -31,6 +32,12 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 });
 
 Route::get('/category/{category:slug}', function (Category $category) {
+    // eager loading posts and there authors
+    // return $category->load('posts', 'posts.author');
     return view('posts', ['posts' => $category->posts]);
+});
+Route::get('/author/{user}', function (User $user) {
+    // return $user->load('posts');
+    return view('posts', ['posts' => $user->posts]);
 });
 // })->where('post', '[A-z_\-]+');
