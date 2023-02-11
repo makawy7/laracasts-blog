@@ -33,11 +33,14 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 
 Route::get('/category/{category:slug}', function (Category $category) {
     // eager loading posts and there authors
-    // return $category->load('posts', 'posts.author');
+    $category = $category->load('posts', 'posts.author', 'posts.category');
+    // I'm eager loading category to be added to posts, because i return the posts not category
+    // and i don't do that, with every iteration in the view a sql query will be done to get the category of each post again!
+    // I still don't know if it's more efficient performance wise to do this or not
     return view('posts', ['posts' => $category->posts]);
 });
 Route::get('/author/{user}', function (User $user) {
-    // return $user->load('posts');
+    $user = $user->load('posts', 'posts.category', 'posts.author');
     return view('posts', ['posts' => $user->posts]);
 });
 // })->where('post', '[A-z_\-]+');
