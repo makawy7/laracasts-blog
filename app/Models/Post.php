@@ -18,7 +18,7 @@ class Post extends Model
     // }
     
     // clean way to eager load but can case an infinite loop if you have it on the other models as well
-    protected $with = ['category', 'author'];
+    // protected $with = ['category', 'author'];
     public function category()
     {
         return $this->belongsTo(Category::class);
