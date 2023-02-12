@@ -16,7 +16,7 @@ class Post extends Model
     // {
     //     return 'slug';
     // }
-    
+
     // clean way to eager load but can case an infinite loop if you have it on the other models as well
     // protected $with = ['category', 'author'];
     public function category()
@@ -26,5 +26,18 @@ class Post extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function scopeFilter($query, array $filters)
+    {
+
+        // with query builder
+        $query->when($filters['search'] ?? false, fn () => $query
+            ->where('title', 'like', '%' . $filters['search'] . '%')
+            ->orWhere('body', 'like', '%' . $filters['search'] . '%'));
+
+        // if ($filters['search'] ?? false) {
+        //     $query->where('title', 'like', '%' . $filters['search'] . '%')
+        //         ->orWhere('body', 'like', '%' . $filters['search'] . '%');
+        // }
     }
 }
