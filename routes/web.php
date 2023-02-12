@@ -19,10 +19,4 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 */
 
 Route::get('/', [PostController::class, 'index'])->name('home');
-
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
-
-Route::get('/author/{user:username}', function (User $user) {
-    // $user = $user->load('posts', 'posts.category', 'posts.author');
-    return view('posts', ['posts' => $user->posts->load('category', 'author'), 'categories' => Category::all()]);
-});

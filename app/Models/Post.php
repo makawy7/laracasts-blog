@@ -30,27 +30,50 @@ class Post extends Model
     public function scopeFilter($query, array $filters)
     {
 
-        // with query builder
-        $query->when($filters['search'] ?? false, fn ($query, $search) => $query
-            ->where('title', 'like', '%' . $search . '%')
-            ->orWhere('body', 'like', '%' . $search . '%'));
+        $query
+            // search term
+            ->when($filters['search'] ?? false, fn ($query, $search) => $query->where(fn ($query) => 
+            $query->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('body', 'like', '%' . $search . '%')))
+            // category
+            ->when($filters['category'] ?? false, fn ($query, $category) =>
+            $query->whereHas(
+                'category',
+                fn ($query) => $query->where('slug', $category)
+            ))
+            // author
+            ->when(
+                $filters['author'] ?? false,
+                fn ($query, $author) =>
+                $query->whereHas('author', fn ($query) => $query->where('username', $author))
+            );
 
-        // categories filter
-        $query->when($filters['category'] ?? false, fn ($query, $category) =>
+
+        //old code
+        // $query->when($filters['search'] ?? false, fn ($query, $search) => $query->where(fn ($query) => 
+        //     $query->where('title', 'like', '%' . $search . '%')
+        //     ->orWhere('body', 'like', '%' . $search . '%')));
+
+
+        // $query->when($filters['category'] ?? false, fn ($query, $category) =>
         // $query->whereExists(
         //     fn ($query) =>
         //     $query->from('categories')->whereColumn('categories.id', 'posts.category_id')
         //         ->where('categories.slug', $category)
         // A clean way with the eloquent relationship
-        $query->whereHas(
-            'category',
-            fn ($query) =>
-            $query->where('slug', $category)
-        ));
+        // $query->whereHas(
+        //     'category',
+        //     fn ($query) => $query->where('slug', $category)
+        // ));
 
         // if ($filters['search'] ?? false) {
         //     $query->where('title', 'like', '%' . $filters['search'] . '%')
         //         ->orWhere('body', 'like', '%' . $filters['search'] . '%');
         // }
+        // $query->when(
+        //     $filters['author'] ?? false,
+        //     fn ($query, $author) =>
+        //     $query->whereHas('author', fn ($query) => $query->where('username', $author))
+        // );
     }
 }
