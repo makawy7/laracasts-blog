@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -17,18 +18,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
-Route::get('/', function () {
-    // \Illuminate\Support\Facades\DB::listen(
-    //     function ($query) {
-    //         logger($query->sql, $query->bindings);
-    //     }
-    // );
-    // resolving the lazy loading and fetch category with posts
-    return view('posts', [
-        'posts' => Post::latest()->with('category', 'author')->get(),
-        'categories' => Category::all()
-    ]);
-})->name('home');
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
 Route::get('/posts/{post:slug}', function (Post $post) {
     return view('post', ['post' => $post]);
