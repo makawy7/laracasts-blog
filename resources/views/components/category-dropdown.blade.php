@@ -11,8 +11,12 @@
             All
         </x-dropdown-item>
         {{-- :active="isset($currentCategory) && $currentCategory->is($category)" --}}
+        {{-- request()->getQueryString() --}}
+        {{-- http_build_query(request()->except('category', 'page')) --}}
         @foreach ($categories as $category)
-            <x-dropdown-item href="/?category={{ $category->slug }}" :active="isset($currentCategory) && $currentCategory->is($category)">
+            <x-dropdown-item
+                href="/?category={{ $category->slug }}{{ request('search') ? '&search=' . request('search') : ''}}{{ request('author') ? '&author=' . request('author') : ''}}"
+                :active="isset($currentCategory) && $currentCategory->is($category)">
                 {{ ucwords($category->name) }}
             </x-dropdown-item>
         @endforeach
