@@ -7,7 +7,9 @@
             </button>
         </x-slot>
 
-        <x-dropdown-item href="/" :active="!isset($currentCategory)">
+        <x-dropdown-item
+            href="/{{ request('search') ? '&search=' . request('search') : '' }}{{ request('author') ? '&author=' . request('author') : '' }}"
+            :active="!isset($currentCategory)">
             All
         </x-dropdown-item>
         {{-- :active="isset($currentCategory) && $currentCategory->is($category)" --}}
@@ -15,7 +17,7 @@
         {{-- http_build_query(request()->except('category', 'page')) --}}
         @foreach ($categories as $category)
             <x-dropdown-item
-                href="/?category={{ $category->slug }}{{ request('search') ? '&search=' . request('search') : ''}}{{ request('author') ? '&author=' . request('author') : ''}}"
+                href="/?category={{ $category->slug }}{{ request('search') ? '&search=' . request('search') : '' }}{{ request('author') ? '&author=' . request('author') : '' }}"
                 :active="isset($currentCategory) && $currentCategory->is($category)">
                 {{ ucwords($category->name) }}
             </x-dropdown-item>
