@@ -31,9 +31,22 @@ class Post extends Model
     {
 
         // with query builder
-        $query->when($filters['search'] ?? false, fn () => $query
-            ->where('title', 'like', '%' . $filters['search'] . '%')
-            ->orWhere('body', 'like', '%' . $filters['search'] . '%'));
+        $query->when($filters['search'] ?? false, fn ($query, $search) => $query
+            ->where('title', 'like', '%' . $search . '%')
+            ->orWhere('body', 'like', '%' . $search . '%'));
+
+        // categories filter
+        $query->when($filters['category'] ?? false, fn ($query, $category) =>
+        // $query->whereExists(
+        //     fn ($query) =>
+        //     $query->from('categories')->whereColumn('categories.id', 'posts.category_id')
+        //         ->where('categories.slug', $category)
+        // A clean way with the eloquent relationship
+        $query->whereHas(
+            'category',
+            fn ($query) =>
+            $query->where('slug', $category)
+        ));
 
         // if ($filters['search'] ?? false) {
         //     $query->where('title', 'like', '%' . $filters['search'] . '%')

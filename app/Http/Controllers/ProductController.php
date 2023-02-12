@@ -10,10 +10,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $posts =  Post::latest()->filter(['search' => request('search')])->with('category', 'author')->get();
+        $posts =  Post::latest()->filter(request(['search', 'category']))->with('category', 'author')->get();
         return view('posts', [
             'posts' => $posts,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'currentCategory' => Category::firstWhere('slug', request('category'))
         ]);
     }
 }
