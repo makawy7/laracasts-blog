@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Newsteller;
+use App\Services\SendinBlueNewsletter;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(Newsteller::class, function () {
+            return new SendinBlueNewsletter();
+        });
+        // $this->app->bind('foo', fn () => 'bar');
     }
 
     /**

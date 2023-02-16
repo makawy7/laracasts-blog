@@ -35,4 +35,8 @@ return [
         'key' => env('MAILCHIMP_API_KEY')
     ],
 
+    'sendinblue' => [
+        'api' => env('SENDINBLUE_API')
+    ],
+
 ];

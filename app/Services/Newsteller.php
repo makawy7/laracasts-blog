@@ -2,24 +2,9 @@
 
 namespace App\Services;
 
-use MailchimpMarketing\ApiClient;
 
-class Newsteller
+interface Newsteller
 {
-    public function subscribe(string $email)
-    {
-        $this->client()->lists->addListMember('d6dfs6dsfs', [
-            'email_address' => $email,
-            'status' => 'subscribed'
-        ]);
-    }
-    protected function client()
-    {
-        $mailchimp = new ApiClient();
-        $mailchimp->setConfig([
-            'apiKey' => config('services.mailchimp.key'),
-            'serve' => 'us6'
-        ]);
-        return $mailchimp;
-    }
+    public function subscribe(string $email, string $list);
+    public function client(string $list);
 }

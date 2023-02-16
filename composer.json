@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "mailchimp/marketing": "^3.0",
+        "sendinblue/api-v3-sdk": "8.x.x",
         "spatie/yaml-front-matter": "^2.0"
     },
     "require-dev": {
