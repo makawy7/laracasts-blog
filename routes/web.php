@@ -36,4 +36,4 @@ Route::post('/newsteller', NewsletterController::class);
 
 
 Route::get('admin/posts/create', [PostController::class, 'create'])->middleware('admin');
-Route::post('admin/posts/create', [PostController::class, 'store']);
+Route::post('admin/posts/create', [PostController::class, 'store'])->middleware('admin');

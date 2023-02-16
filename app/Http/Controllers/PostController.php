@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -29,6 +31,15 @@ class PostController extends Controller
 
     public function store()
     {
-        return request()->all();
+        $attributes = request()->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+        ]);
+        $attributes['slug'] = Str::slug($attributes['title']);
+        $attributes['user_id'] = auth()->user()->id;
+        $post = Post::create($attributes);
+        return redirect('/posts/' . $post->slug);
     }
 }

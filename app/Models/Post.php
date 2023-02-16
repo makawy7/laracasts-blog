@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    // protected $guarded = ['id'];
-    // protected $fillable = ['title','slug', 'body', 'excerpt'];
+    protected $guarded = ['id'];
+    // protected $fillable = ['title', 'slug', 'body', 'excerpt', 'slug', 'category_id', 'user_id'];
 
     // define the default key for route model binding otherwise use {post:slug}
     // public function getRouteKeyName()
@@ -28,18 +28,34 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class, 'post_id');
     }
 
+    public function setSlugAttribute($slug)
+    {
+        $this->attributes['slug'] = self::uniqueSlug($slug);
+    }
+    private static function uniqueSlug($slug, $counter = 1)
+    {
+        $newSlug = parent::where('slug', $slug)->exists() ? $slug . '-' . $counter : $slug;
+        if (parent::where('slug', $newSlug)->exists()) {
+            // if it still exists regenerate
+            $counter += 1;
+            return self::uniqueSlug($slug, $counter);
+        } else {
+            return $newSlug;
+        }
+    }
     public function scopeFilter($query, array $filters)
     {
 
         $query
             // search term
-            ->when($filters['search'] ?? false, fn ($query, $search) => $query->where(fn ($query) => 
+            ->when($filters['search'] ?? false, fn ($query, $search) => $query->where(fn ($query) =>
             $query->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('body', 'like', '%' . $search . '%')))
+                ->orWhere('body', 'like', '%' . $search . '%')))
             // category
             ->when($filters['category'] ?? false, fn ($query, $category) =>
             $query->whereHas(
