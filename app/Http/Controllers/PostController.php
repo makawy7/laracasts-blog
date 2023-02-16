@@ -18,7 +18,17 @@ class PostController extends Controller
         return view('posts.index', ['posts' => $posts]);
     }
     public function show(Post $post)
-    {    
+    {
         return view('posts.show', ['post' => $post->load('comments', 'comments.user')]);
+    }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    public function store()
+    {
+        return request()->all();
     }
 }
