@@ -6,15 +6,16 @@
                 @csrf
                 <div class="mb-6">
                     <label for="email" class="block mb-2 uppercase font-bold text-xs text-grey-700">email</label>
-                    <input value="{{ old('email') }}" class="border border-grey-400 p-2 w-full" type="text"
-                        name="email" id="email">
+                    <input class="border border-grey-400 p-2 w-full" value="{{ old('email') }}" type="text"
+                        name="email" id="email" autocomplete="username">
                     @error('email')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="mb-6">
                     <label for="password" class="block mb-2 uppercase font-bold text-xs text-grey-700">password</label>
-                    <input class="border border-grey-400 p-2 w-full" type="password" name="password" id="password">
+                    <input class="border border-grey-400 p-2 w-full" type="password" name="password" id="password"
+                        autocomplete="current-password">
                     @error('password')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror

@@ -22,11 +22,7 @@
 
             <div class="mt-8 md:mt-0 flex items-center">
                 @auth
-                    <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}</span>
-                    <form action="/logout" method="POST" class="font-semibold text-blue-500 ml-6">
-                        @csrf
-                        <button type="submit">Logout</button>
-                    </form>
+                    <x-user-dropdown>Welcome, {{ auth()->user()->name }}</x-user-dropdown>
                 @else
                     <a href="/register" class="text-xs font-bold uppercase">Register</a>
                     <a href="/login" class="ml-3 text-xs font-bold uppercase">Log in</a>
