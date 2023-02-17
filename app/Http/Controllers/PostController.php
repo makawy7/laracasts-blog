@@ -35,11 +35,18 @@ class PostController extends Controller
             'title' => 'required',
             'excerpt' => 'required',
             'body' => 'required',
+            'thumbnail' => 'sometimes|image',
             'category_id' => ['required', Rule::exists('categories', 'id')],
         ]);
+
+        if(request()->has('thumbnail')){
+            $path = request()->file('thumbnail')->store('thumbnails');
+            $attributes['thumbnail'] = $path;
+        }
+
         $attributes['slug'] = Str::slug($attributes['title']);
         $attributes['user_id'] = auth()->user()->id;
         $post = Post::create($attributes);
-        return redirect('/posts/' . $post->slug);
+        return redirect('/posts/' . $post->slug)->with('success', 'Post has been created.');
     }
 }

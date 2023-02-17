@@ -1,13 +1,23 @@
 <x-layout>
-    <section class="px-6 py-8">
+    <section class="py-8 max-w-lg mx-auto">
+        <h1 class="text-lg font-bold mb-4">
+            Publish A New Post
+        </h1>
         <main class="max-w-lg mx-auto mt-10 bg-gray-100 border-gray-200 p-6 rounded-xl">
-            <form action="/admin/posts/create" method="POST">
+            <form action="/admin/posts/create" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-6">
                     <label for="title" class="block mb-2 uppercase font-bold text-xs text-grey-700">title</label>
                     <input value="{{ old('title') }}" class="border border-grey-400 p-2 w-full" type="text"
                         name="title" id="title">
                     @error('title')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-6">
+                    <label for="thumbnail" class="block mb-2 uppercase font-bold text-xs text-grey-700">thumbnail</label>
+                    <input class="border border-grey-400 p-2 w-full" type="file" name="thumbnail" id="thumbnail">
+                    @error('thumbnail')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
                 </div>
