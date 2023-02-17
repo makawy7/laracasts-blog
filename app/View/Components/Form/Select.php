@@ -1,11 +1,11 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Form;
 
 use App\Models\Category;
 use Illuminate\View\Component;
 
-class CategorySelect extends Component
+class Select extends Component
 {
     /**
      * Create a new component instance.
@@ -24,7 +24,7 @@ class CategorySelect extends Component
      */
     public function render()
     {
-        return view('components.category-select', [
+        return view('components.form.select', [
             'categories' => Category::all()
         ]);
     }
