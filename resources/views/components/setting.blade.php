@@ -9,8 +9,8 @@
             <aside class="w-48">
                 <h4 class="font-semibold mb-4">Links</h4>
                 <ul class="mb-1">
-                    <a href="/admin/posts/create"
-                        class="{{ request()->is('admin/dashboard') ? 'text-blue-500' : '' }}">Dashboard</a>
+                    <a href="/admin/posts"
+                        class="{{ request()->is('admin/posts') ? 'text-blue-500' : '' }}">Mange Posts</a>
                 </ul>
                 <ul class="mb-1">
                     <a href="/admin/posts/create"
@@ -19,7 +19,7 @@
             </aside>
 
 
-            <main class="flex-1 max-w-2xl mx-auto mt-10 bg-gray-100 border-gray-200 p-6 rounded-xl">
+            <main class="flex-1 max-w-3xl mx-auto mt-10 border border-gray-400 p-6 rounded-xl">
                 {{ $slot }}
             </main>
 
