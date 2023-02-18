@@ -27,12 +27,8 @@ class PostObserver
     public function updated(Post $post)
     {
         $changes = $post->getChanges();
-        if ($changes['thumbnail'] ?? false) {
-            if ($thumbnail = $post->getOriginal('thumbnail') ?? false) {
-                if (Storage::exists($thumbnail)) {
-                    Storage::delete($thumbnail);
-                }
-            }
+        if ($changes['thumbnail'] ?? false && $thumbnail = $post->getOriginal('thumbnail')) {
+            Storage::delete(optional($thumbnail));
         }
     }
 
@@ -45,9 +41,7 @@ class PostObserver
     public function deleted(Post $post)
     {
         if ($post->thumbnail ?? false) {
-            if (Storage::exists($post->thumbnail)) {
-                Storage::delete($post->thumbnail);
-            }
+            Storage::delete(optional($post->thumbnail));
         }
     }
 
