@@ -21,6 +21,8 @@ class RegisterController extends Controller
         ]);
 
         $user = User::create($attributes);
+        // Send the email notification to the admin
+        $user->sendAdminNotification();
         auth()->login($user);
         // session()->flash('success', 'Your account has been created.');
         return redirect('/')->with('sucess', 'Your account has been created.');
